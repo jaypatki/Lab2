@@ -20,17 +20,58 @@ the_tate_artists <- readr::read_csv("data/the-tate-artists.csv")
 
 ## Exercises
 
+```{r}
+install.packages("magrittr")
+install.packages("tidyverse")
+install.packages("tidymodels")
+install.packages("gt")
+install.packages("gtExtras")
+install.packages("DataExplorer")
+```
+
+```{r}
+library(magrittr)     # the pipe
+library(tidyverse)    # for data wrangling + visualization
+library(tidymodels)   # for modeling
+library(gt)           # for making display tables
+library(gtExtras)     # helper functions for beautiful tables
+library(DataExplorer) #
+```
+
 ### Exercise 1
+
+```{r}
+dplyr::distinct(the_tate_artists)
+min(the_tate_artists$yearOfBirth,na.rm = T)
+max(the_tate_artists$yearOfBirth,na.rm = T)
+
+```
 
 The `the_tate` dataset has \_\_\_ unique artists who worked from \_\_\_ to \_\_\_. The works were acquired between the years \_\_\_ and \_\_\_.
 
 ### Exercise 2
 
-How number of works with missing dates is \_\_.
+```{r}
+dplyr::glimpse(the_tate)
+```
 
-The number of artists whose works have missing dates is \_\_.
+```{r}
 
-It would require resolving missing year data for only \_\_ artists resolve resolve at least 50% of the missing data.
+missdata <- dplyr::filter(the_tate,is.na(the_tate$title))
+missdata
+sum(is.na(the_tate$title))
+artistsdata <- dplyr::filter(the_tate,is.na(the_tate$year))
+artistcnt <- artistsdata |> dplyr::select(artist)
+finallst  <-artistcnt |> dplyr::distinct(artist)
+finallst
+
+```
+
+How number of works with missing dates is 0\_\_.
+
+The number of artists whose works have missing dates is 461\_\_.
+
+It would require resolving missing year data for only 230\_\_ artists resolve resolve at least 50% of the missing data.
 
 The missing year data likely to be classified as \_\_\_\_.
 
